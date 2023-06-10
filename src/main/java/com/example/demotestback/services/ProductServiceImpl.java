@@ -4,6 +4,9 @@ import com.example.demotestback.entities.Product;
 import com.example.demotestback.repositories.ProductRepositories;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,5 +39,49 @@ public class ProductServiceImpl implements ProductService{
                     .build();
             productRepositories.save(product);
         }
+    }
+
+    @Override
+    public Product saveProduct(Product product) {
+        Product saveProduct = productRepositories.save(product);
+        return saveProduct;
+    }
+
+    @Override
+    public Page<Product> getProduct(int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Product> getProduct = productRepositories.findAll(pageable);
+        return getProduct;
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        Product product = productRepositories.findById(id).orElse(null);
+        return product;
+    }
+
+    @Override
+    public Product updateProduct(Product product) {
+        Product updateProducts = productRepositories.save(product);
+        return updateProducts;
+    }
+
+    @Override
+    public Page searchProduct(String keyword, int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Product> searchProduct = productRepositories.findProductByProduct_name(keyword, pageable);
+        return searchProduct;
+    }
+
+    @Override
+    public Product deleteProduct(Long id) {
+        Product product = productRepositories.findById(id).orElse(null);
+        productRepositories.deleteById(id);
+        return product;
+    }
+
+    @Override
+    public List<Product> listProduct() {
+        return productRepositories.findAll();
     }
 }
