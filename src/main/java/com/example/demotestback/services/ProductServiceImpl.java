@@ -2,6 +2,7 @@ package com.example.demotestback.services;
 
 import com.example.demotestback.entities.Product;
 import com.example.demotestback.repositories.ProductRepositories;
+import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
@@ -83,5 +84,20 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public List<Product> listProduct() {
         return productRepositories.findAll();
+    }
+
+    @Override
+    public Product saveRandomProduct() {
+        Product product = new Product();
+        Faker faker = new Faker();
+
+        product.setProduct_name(faker.commerce().productName());
+        product.setQuantity_order(faker.number().randomNumber());
+        product.setPrice_each(faker.number().randomDouble(2, 0, 1000));
+        product.setOrder_date(faker.date().toString());
+        product.setPurchase_address(faker.address().fullAddress());
+
+        Product savedProduct = productRepositories.save(product);
+        return savedProduct;
     }
 }

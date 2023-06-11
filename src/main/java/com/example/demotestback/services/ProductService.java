@@ -17,4 +17,5 @@ public interface ProductService {
     Page searchProduct(String keyword, int page, int size);
     Product deleteProduct(Long id);
     List<Product> listProduct();
+    Product saveRandomProduct();
 }

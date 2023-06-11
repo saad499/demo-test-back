@@ -62,4 +62,9 @@ public class ProductRestController {
     public List<Product> allProduct(){
         return productService.listProduct();
     }
+
+    @PostMapping("/products/random")
+    public Product saveRandomProduct(){
+        return productService.saveRandomProduct();
+    }
 }
